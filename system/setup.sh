@@ -1,7 +1,7 @@
-# setup script for ubuntu 22.04
+# setup script for ubuntu 22.04 minimal desktop
 
 # install git and zsh
-## sudo apt install git zsh
+## sudo apt install git zsh curl neovim tmux
 
 # setup repo folder
 ## mkdir ~/code
@@ -16,5 +16,7 @@
 
 # change users default bash shell to zsh
 ## chsh -s $(which zsh)
+
+# setup vim from https://github.com/v801/neovim-config
 
 echo "finish this setup script!"
