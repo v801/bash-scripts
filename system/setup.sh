@@ -1,7 +1,7 @@
 # setup script for ubuntu 22.04 minimal desktop
 
 # install git and zsh
-## sudo apt install git zsh curl neovim tmux
+## sudo apt install git zsh curl neovim tmux bat
 
 # setup repo folder
 ## mkdir ~/code
@@ -13,6 +13,9 @@
 ## ln -s ~/code/.dotfiles/.zsh_aliases ~/.zsh_aliases
 ## ln -s ~/code/.dotfiles/.zshrc ~/.zshrc
 ## ln -s ~/code/.dotfiles/.tmux.conf ~/.tmux.conf
+
+# symlink bat
+## sudo ln -s batcat /usr/bin/bat
 
 # change users default bash shell to zsh
 ## chsh -s $(which zsh)
