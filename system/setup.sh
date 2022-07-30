@@ -1,7 +1,29 @@
 # setup script for ubuntu 22.04 minimal desktop
 
-# install git and zsh
-## sudo apt install git zsh curl neovim tmux bat
+# install curl git zsh neovim tmux bat
+## sudo apt install curl git zsh neovim tmux bat
+
+# install asdf
+## git clone https://github.com/asdf-vm/asdf.git ~/.asdf
+
+# install asdf plugins
+## asdf plugin add nodejs
+## asdf plugin add golang
+## asdf plugin add python
+## asdf plugin add rust
+
+# install latest from asdf plugins
+## asdf install nodejs latest
+## asdf global nodejs latest
+##
+## asdf install golang latest
+## asdf global golang latest
+##
+## asdf install python latest
+## asdf global python latest
+##
+## asdf install rust latest
+## asdf global rust latest
 
 # setup repo folder
 ## mkdir ~/code
