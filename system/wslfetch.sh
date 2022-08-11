@@ -9,9 +9,9 @@ wslsys=$(wslsys)
 wslvers=$(echo "$wslsys" | grep -Po '^WSL Version: \K.*')
 branch=$(echo "$wslsys" | grep -Po '^Branch: \K.*')
 build=$(echo "$wslsys" | grep -Po '^Build: \K.*')
-release=$(echo "$wslsys" | grep -Po '^Linux Release: \K.*')
-kernel=$(echo "$wslsys" | grep -Po '^Linux Kernel: \K.*')
-uptime=$(echo "$wslsys" | grep -Po '^Uptime: \K.*')
+release=$(echo "$wslsys" | grep -Po '^WSL Release: \K.*')
+kernel=$(echo "$wslsys" | grep -Po '^WSL Kernel: \K.*')
+uptime=$(echo "$wslsys" | grep -Po '^WSL Uptime: \K.*')
 
 case "$distro" in
 	*)
