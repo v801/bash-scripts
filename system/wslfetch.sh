@@ -1,20 +1,53 @@
-#!/usr/bin/env bash
-# shellcheck shell=bash
-#
-# neofetch script for WSL2
+#! /usr/bin/env bash
+
+# custom neofetch for *nix and WSL2
 # forked from https://github.com/wslutilities/wslu/blob/master/src/wslfetch.sh
 
-hostname=$(</etc/hostname)
-wslsys=$(wslsys)
-build=$(echo "$wslsys" | grep -Po '^Build: \K.*')
-release=$(echo "$wslsys" | grep -Po '^WSL Release: \K.*')
-kernel=$(echo "$wslsys" | grep -Po '^WSL Kernel: \K.*')
-uptime=$(echo "$wslsys" | grep -Po '^WSL Uptime: \K.*')
+# exit immediately on non-zero exit status
+set -e
 
-case "$distro" in
-	*)
-		full_text=(
- '                      :::!~!!!!!:.              '
+## setup vars and info block
+getInfo() {
+  user=$(whoami)
+  hostname=$(< /etc/hostname)
+  # check for WSL
+  if [ -x "$(command -v wslsys)" ]; then
+    title=$(printf "Windows 10 Linux Subsystem")
+    wslsys=$(wslsys)
+    build=$(printf "$wslsys" | grep -Po '^Build: \K.*')
+    release=$(printf "$wslsys" | grep -Po '^WSL Release: \K.*')
+    kernel=$(printf "$wslsys" | grep -Po '^WSL Kernel: \K.*')
+    uptime=$(printf "$wslsys" | grep -Po '^WSL Uptime: \K.*')
+    infoText=(
+      "${t}${title}${reset}"
+      "${t}${user}${reset}@${t}${hostname}${reset}"
+      "${t}Build   :  ${build}"
+      "${t}Release :  ${release}"
+      "${t}Kernel  :  ${kernel}"
+      "${t}Uptime  :  ${uptime}"
+      "${reset}"
+    )
+  else
+    distro=$(lsb_release -i|cut -f 2)
+    title=$(printf "${distro} Linux")
+    release=$(lsb_release -r|cut -f 2)
+    kernel=$(uname -r)
+    uptime=$(uptime -p | cut -f 2-9 -d " ")
+    infoText=(
+      "${t}${title}${reset}"
+      "${t}${user}${reset}@${t}${hostname}${reset}"
+      "${t}Release :  ${release}"
+      "${t}Kernel  :  ${kernel}"
+      "${t}Uptime  :  ${uptime}"
+      "${reset}"
+    )
+  fi
+}
+
+## get ascii
+getAscii() {
+ascii=(
+'                       :::!~!!!!!:.              '
 '                   .xUHWH!! !!?M88WHX:.          '
 '                 .X*#M@$!!  !X!M$$$$$$WWx:.      '
 '                :!!!!!!?H! :!$!$$$$$$$$$$8X:     '
@@ -33,39 +66,41 @@ case "$distro" in
 ' .~~   :X@!.-~   ?@WTWo("*$$$W$TH$! ` '
 ' Wi.~!X$?!-~    : ?$$$B$Wu("**$RM! '
 '$R@i.~~ !     :   ~$$$$$B$$en:`` '
-'?MXT@Wx.~    :     ~"##*$$$$M~ ');;
-esac
-
-
-info_text=("${t}Windows 10 Linux Subsystem${reset}"
-"${t}${USER}${reset}@${t}${hostname}${reset}"
-"${t}Build   :  ${build}"
-"${t}Release :  ${release}"
-"${t}Kernel  :  ${kernel}"
-"${t}Uptime  :  ${uptime}"
-"${reset}"
-)
-
-function line {
-	if [[ "$1" == "1" ]]; then
-		CUR_TTY="$(tty)"
-		yes -- "${2:-=}" | tr -d $'\n' | head -c "$(stty -a <"$CUR_TTY" | head -1 | sed -e "s|^.*columns ||g" -e "s|;.*$||g")"
-	else
-		echo ""
-	fi
+'?MXT@Wx.~    :     ~"##*$$$$M~ ')
 }
 
-info_length=${#info_text[@]}
-full_length=${#full_text[@]}
+line() {
+  if [[ "$1" == "1" ]]; then
+    CUR_TTY="$(tty)"
+    yes -- "${2:-=}" | tr -d $'\n' | head -c "$(stty -a <"$CUR_TTY" | head -1 | sed -e "s|^.*columns ||g" -e "s|;.*$||g")"
+  else
+    echo ""
+  fi
+}
 
-line "$is_line" "-"
-# use for loop to read all values and indexes
-for (( i=0; i<full_length; i++ ));
-do
-	tmp=""
-	if [[ $i -le ${info_length} ]]; then
-		tmp="${info_text[$i]}"
-	fi
-	echo -e "${full_text[$i]}${tmp}"
-done
-line "$is_line" "-"
+## align info text with ascii
+alignText() {
+  infoLength=${#infoText[@]}
+  asciiLength=${#ascii[@]}
+
+  line "$isLine" "-"
+  # use for loop to read all values and indexes
+  for (( i=0; i<asciiLength; i++ ));
+  do
+    tmp=""
+    if [[ $i -le ${infoLength} ]]; then
+      tmp="${infoText[$i]}"
+    fi
+    echo -e "${ascii[$i]}${tmp}"
+  done
+  line "$isLine" "-"
+}
+
+## main function
+main() {
+  getInfo
+  getAscii
+  alignText
+}
+
+main
