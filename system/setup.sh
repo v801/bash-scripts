@@ -36,9 +36,6 @@
 ## ln -s ~/code/.dotfiles/.zshrc ~/.zshrc
 ## ln -s ~/code/.dotfiles/.tmux.conf ~/.tmux.conf
 
-# symlink bat
-## sudo ln -s batcat /usr/bin/bat
-
 # change users default bash shell to zsh
 ## chsh -s $(which zsh)
 
