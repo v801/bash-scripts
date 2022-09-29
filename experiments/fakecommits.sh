@@ -2,6 +2,7 @@
 
 ## generate a full looking git contribution graph just for funsies
 ## requires git plus node.js for npx
+## uses github.com/artiebits/fake-git-history
 
 # exit immediately on non-zero exit status
 set -e
