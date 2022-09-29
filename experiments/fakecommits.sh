@@ -23,6 +23,8 @@ fakeCommits() {
 ## move into directory and push commits
 pushCommits() {
   cd my-history
+  # adding remote origin and force pushing each time 
+  # because fake-git-history blows out previous git history every run
   git remote add origin git@github.com:v801/fake-commit-history.git
   git push --set-upstream origin main --force
 }
