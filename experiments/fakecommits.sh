@@ -37,7 +37,6 @@ main() {
   checkDependency
   fakeCommits
   pushCommits
-  cleanUp
   showDoneMessage
 }
 
