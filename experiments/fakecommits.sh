@@ -29,7 +29,7 @@ pushCommits() {
 
 ## print done message
 showDoneMessage() {
-  printf "[+] Done! Completed in ${SECONDS} seconds.\n"
+  printf "[+] Done!\n"
 }
 
 ## main
